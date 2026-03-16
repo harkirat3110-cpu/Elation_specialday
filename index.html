@@ -13,107 +13,103 @@ font-family:'Segoe UI',sans-serif;
 text-align:center;
 color:white;
 overflow-x:hidden;
-background:radial-gradient(circle at bottom,#12002f,#000);
+background:black;
 }
 
+/* BACKGROUND CANVAS */
 canvas{
 position:fixed;
 top:0;
 left:0;
-z-index:-3;
+width:100%;
+height:100%;
+z-index:-2;
 }
 
+/* TITLE */
 h1{
-margin-top:55px;
-font-size:52px;
+margin-top:50px;
+font-size:50px;
 background:linear-gradient(45deg,#ff4da6,#ffffff,#ffb6e6);
 -webkit-background-clip:text;
 color:transparent;
-text-shadow:0 0 25px #ff4da6;
+text-shadow:0 0 20px #ff4da6;
 }
 
+/* COUNTDOWN */
 #countdown{
 font-size:22px;
 margin-top:10px;
-letter-spacing:2px;
 }
 
+/* SLIDESHOW */
 .slideshow img{
-width:320px;
-border-radius:25px;
-box-shadow:0 0 45px rgba(255,105,180,0.8);
-transition:opacity 1s ease-in-out;
-margin-top:35px;
-}
-
-.gift{
-font-size:90px;
-margin-top:35px;
-cursor:pointer;
-transition:0.3s;
-}
-
-.gift:hover{
-transform:scale(1.2);
-}
-
-#letter{
-display:none;
-margin:35px auto;
-width:85%;
-max-width:600px;
-background:rgba(255,255,255,0.08);
-backdrop-filter:blur(12px);
-padding:28px;
+width:300px;
+margin-top:30px;
 border-radius:20px;
-box-shadow:0 0 50px rgba(255,105,180,0.5);
+box-shadow:0 0 40px pink;
+transition:opacity 1s;
 }
 
-#celebrationText{
+/* GIFT */
+.gift{
+font-size:80px;
+margin-top:30px;
+cursor:pointer;
+}
+
+/* LETTER */
+#letter{
 display:none;
 margin:30px auto;
 width:85%;
-max-width:650px;
-background:rgba(255,255,255,0.12);
-backdrop-filter:blur(12px);
+max-width:600px;
+background:rgba(255,255,255,0.1);
+backdrop-filter:blur(10px);
 padding:25px;
 border-radius:20px;
-box-shadow:0 0 40px pink;
+}
+
+/* CELEBRATION OVERLAY */
+#celebration{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.85);
+display:none;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+z-index:10;
+}
+
+/* BIG TEXT */
+#celebration h2{
+font-size:60px;
+background:linear-gradient(45deg,#ff4da6,#fff,#ffb6e6);
+-webkit-background-clip:text;
+color:transparent;
+animation:zoom 2s ease;
+}
+
+@keyframes zoom{
+from{transform:scale(0.5);opacity:0}
+to{transform:scale(1);opacity:1}
+}
+
+/* MESSAGE CARD */
+#celebration p{
+max-width:700px;
+margin-top:20px;
 font-size:20px;
-animation:fadeIn 2s ease forwards;
+background:rgba(255,255,255,0.1);
+padding:20px;
+border-radius:15px;
 }
 
-@keyframes fadeIn{
-from{opacity:0;transform:scale(0.9)}
-to{opacity:1;transform:scale(1)}
-}
-
-.heart{
-position:fixed;
-bottom:-20px;
-font-size:22px;
-animation:floatUp 7s linear forwards;
-}
-
-@keyframes floatUp{
-0%{transform:translateY(0);opacity:1}
-100%{transform:translateY(-110vh);opacity:0}
-}
-
-.particle{
-position:fixed;
-width:6px;
-height:6px;
-border-radius:50%;
-pointer-events:none;
-animation:explode 1s ease-out forwards;
-}
-
-@keyframes explode{
-0%{transform:scale(1);opacity:1}
-100%{transform:scale(0);opacity:0}
-}
-
+/* MUSIC BUTTON */
 #musicBtn{
 position:fixed;
 bottom:20px;
@@ -124,7 +120,6 @@ color:white;
 padding:10px 15px;
 border-radius:20px;
 cursor:pointer;
-box-shadow:0 0 20px #ff4da6;
 }
 
 </style>
@@ -132,9 +127,9 @@ box-shadow:0 0 20px #ff4da6;
 
 <body>
 
-<canvas id="stars"></canvas>
+<canvas id="canvas"></canvas>
 
-<h1>Happy Birthday My Love ❤️</h1>
+<h1>Happy Birthday Elation❤️</h1>
 
 <div id="countdown"></div>
 
@@ -149,7 +144,10 @@ box-shadow:0 0 20px #ff4da6;
 <p id="message"></p>
 </div>
 
-<div id="celebrationText"></div>
+<div id="celebration">
+<h2>🎉 HAPPY BIRTHDAY 🎉</h2>
+<p id="celebrationText"></p>
+</div>
 
 <button id="musicBtn" onclick="playMusic()">🎵 Play Music</button>
 
@@ -161,14 +159,12 @@ box-shadow:0 0 20px #ff4da6;
 
 /* MUSIC */
 function playMusic(){
-let music=document.getElementById("music");
-music.play().then(()=>{
+document.getElementById("music").play();
 document.getElementById("musicBtn").style.display="none";
-});
 }
 
 /* SLIDESHOW */
-let photos=["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg"];
+let photos=["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg","photo6.jpg","photo7.jpg"];
 let index=0;
 
 setInterval(()=>{
@@ -184,14 +180,13 @@ img.style.opacity=1;
 /* COUNTDOWN */
 let birthday=new Date("2026-03-17T00:00:00").getTime();
 
-let countdownInterval=setInterval(()=>{
+let timer=setInterval(()=>{
 
 let now=new Date().getTime();
 let dist=birthday-now;
 
 if(dist<=0){
-clearInterval(countdownInterval);
-document.getElementById("countdown").innerHTML="🎉 IT'S YOUR SPECIAL DAY! 🎉";
+clearInterval(timer);
 startCelebration();
 return;
 }
@@ -206,110 +201,90 @@ d+"d "+h+"h "+m+"m "+s+"s ❤️";
 
 },1000);
 
-/* STARS */
-let canvas=document.getElementById("stars");
-let ctx=canvas.getContext("2d");
-
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
-
-let stars=[];
-
-for(let i=0;i<400;i++){
-stars.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-r:Math.random()*1.8,
-speed:Math.random()*0.5
-});
-}
-
-function draw(){
-ctx.clearRect(0,0,canvas.width,canvas.height);
-ctx.fillStyle="white";
-
-stars.forEach(s=>{
-s.y+=s.speed;
-if(s.y>canvas.height)s.y=0;
-
-ctx.beginPath();
-ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
-ctx.fill();
-});
-
-requestAnimationFrame(draw);
-}
-draw();
-
-/* HEARTS */
-setInterval(()=>{
-let heart=document.createElement("div");
-heart.className="heart";
-heart.innerHTML="💖";
-heart.style.left=Math.random()*100+"vw";
-document.body.appendChild(heart);
-setTimeout(()=>heart.remove(),7000);
-},700);
-
-/* TYPEWRITER */
-let text="Distance means nothing when someone means everything. You are my heart, my peace, my forever. Happy Birthday my love ❤️";
-
+/* LETTER */
+let text="Distance means nothing when someone means everything. You are my heart, my forever. ❤️";
 let i=0;
 
 function type(){
 if(i<text.length){
 document.getElementById("message").innerHTML+=text.charAt(i);
 i++;
-setTimeout(type,35);
+setTimeout(type,30);
 }
 }
 
-/* GIFT */
 function openGift(){
 document.getElementById("letter").style.display="block";
-playMusic();
 type();
 }
 
 /* CELEBRATION MODE */
 function startCelebration(){
 
-openGift();
+document.getElementById("celebration").style.display="flex";
+document.getElementById("celebrationText").innerText=
+"Today the universe celebrates you. Even miles apart, our hearts beat together. You are my love, my happiness, my forever. ❤️";
 
-let celebrationMessage=`
-🎉 Happy Birthday My Love! 🎉
-
-Today the world became brighter because you were born.
-
-Even though we are miles apart, my heart stays right next to yours.
-This distance only makes my love stronger every day.
-
-You are my happiness, my comfort, and my forever.
-I am so proud of you and so deeply in love with you. ❤️
-`;
-
-let box=document.getElementById("celebrationText");
-box.style.display="block";
-box.innerText=celebrationMessage;
+launchFireworks();
+launchConfetti();
+}
 
 /* FIREWORKS */
+let canvas=document.getElementById("canvas");
+let ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+
+function launchFireworks(){
 setInterval(()=>{
-
-for(let i=0;i<60;i++){
-
-let p=document.createElement("div");
-p.className="particle";
-p.style.left=Math.random()*100+"vw";
-p.style.top=Math.random()*100+"vh";
-p.style.background=`hsl(${Math.random()*360},100%,60%)`;
-document.body.appendChild(p);
-setTimeout(()=>p.remove(),1000);
-
+for(let i=0;i<80;i++){
+particles.push({
+x:canvas.width/2,
+y:canvas.height/2,
+vx:(Math.random()-0.5)*6,
+vy:(Math.random()-0.5)*6,
+life:100,
+color:`hsl(${Math.random()*360},100%,60%)`
+});
+}
+},800);
 }
 
-},2000);
-
+function launchConfetti(){
+for(let i=0;i<200;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+vx:(Math.random()-0.5)*4,
+vy:Math.random()*3,
+life:150,
+color:`hsl(${Math.random()*360},100%,60%)`
+});
 }
+}
+
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+particles.forEach((p,index)=>{
+p.x+=p.vx;
+p.y+=p.vy;
+p.life--;
+
+ctx.fillStyle=p.color;
+ctx.fillRect(p.x,p.y,4,4);
+
+if(p.life<=0){
+particles.splice(index,1);
+}
+});
+
+requestAnimationFrame(animate);
+}
+
+animate();
 
 </script>
 
