@@ -16,6 +16,10 @@ overflow:hidden;
 background:linear-gradient(-45deg,#0f0c29,#302b63,#24243e,#000);
 background-size:400% 400%;
 animation:gradient 15s ease infinite;
+
+display:flex;
+flex-direction:column;
+align-items:center;
 }
 
 @keyframes gradient{
@@ -58,24 +62,31 @@ margin-top:10px;
 /* SLIDESHOW */
 .slideshow{
 margin-top:25px;
+height:320px; /* FIXED HEIGHT */
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
 .slideshow img{
 width:300px;
+height:300px; /* FIXED SIZE */
+object-fit:cover; /* prevents stretching */
 border-radius:20px;
 box-shadow:0 0 40px pink;
-transition:opacity 1s ease-in-out;
+transition:opacity 0.8s ease-in-out;
 }
 
 /* GIFT */
 .gift{
-font-size:80px;
-margin-top:20px;
+position:fixed;
+bottom:80px;
+left:50%;
+transform:translateX(-50%);
+font-size:85px;
 cursor:pointer;
 transition:0.3s;
-}
-.gift:hover{
-transform:scale(1.2);
+z-index:20;
 }
 
 /* LETTER */
@@ -107,7 +118,8 @@ z-index:10;
 
 #celebration h2{
 font-size:55px;
-background:linear-gradient(45deg,#ff4da6,#fff,#ffb6e6);
+background:radial-gradient(circle at center, rgba(255,77,166,0.2), rgba(0,0,0,0.95));
+backdrop-filter:blur(8px);
 -webkit-background-clip:text;
 color:transparent;
 }
