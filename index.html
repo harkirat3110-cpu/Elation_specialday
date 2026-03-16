@@ -282,13 +282,29 @@ p.className="particle";
 p.style.left=Math.random()*100+"vw";
 p.style.top=Math.random()*100+"vh";
 p.style.background=`hsl(${Math.random()*360},100%,60%)`;
+let celebrationMessage = `
+🎉 Happy Birthday My Love! 🎉
 
+Today is not just a special day — it is the day the most beautiful soul in my life was born.
+
+Even though miles may separate us, nothing can ever separate our hearts. Every second apart only makes my love grow stronger.
+
+You are my happiness, my comfort, my safe place, and my forever person. I am so proud of you and so grateful to have you in my life.
+
+This celebration is just a small reminder of how deeply you are loved. ❤️
+`;
+
+let textBox = document.getElementById("celebrationText");
+textBox.style.display = "block";
+textBox.innerText = celebrationMessage;
 document.body.appendChild(p);
 setTimeout(()=>p.remove(),1000);
 
 }
 
 },2000);
+<div id="celebrationText" style="display:none; margin-top:30px; width:80%; max-width:650px; margin-left:auto; margin-right:auto; font-size:20px; background:rgba(255,255,255,0.1); backdrop-filter:blur(10px); padding:25px; border-radius:20px; box-shadow:0 0 40px pink;">
+</div>
 
 }
 
