@@ -2,7 +2,7 @@
 <html>
 <head>
 
-<title>Happy Birthday My Love ❤️</title>
+<title>For My Forever ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
@@ -12,11 +12,19 @@ margin:0;
 font-family:'Segoe UI',sans-serif;
 text-align:center;
 color:white;
-overflow-x:hidden;
-background:black;
+overflow:hidden;
+background:linear-gradient(-45deg,#0f0c29,#302b63,#24243e,#000);
+background-size:400% 400%;
+animation:gradient 15s ease infinite;
 }
 
-/* BACKGROUND CANVAS */
+@keyframes gradient{
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+/* STAR CANVAS */
 canvas{
 position:fixed;
 top:0;
@@ -28,84 +36,88 @@ z-index:-2;
 
 /* TITLE */
 h1{
-margin-top:50px;
-font-size:50px;
-background:linear-gradient(45deg,#ff4da6,#ffffff,#ffb6e6);
+margin-top:40px;
+font-size:48px;
+background:linear-gradient(45deg,#ff4da6,#fff,#ffb6e6);
 -webkit-background-clip:text;
 color:transparent;
-text-shadow:0 0 20px #ff4da6;
+animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+from{text-shadow:0 0 10px #ff4da6;}
+to{text-shadow:0 0 30px #ff4da6;}
 }
 
 /* COUNTDOWN */
 #countdown{
-font-size:22px;
+font-size:20px;
 margin-top:10px;
 }
 
 /* SLIDESHOW */
+.slideshow{
+margin-top:25px;
+}
+
 .slideshow img{
 width:300px;
-margin-top:30px;
 border-radius:20px;
 box-shadow:0 0 40px pink;
-transition:opacity 1s;
+transition:opacity 1s ease-in-out;
 }
 
 /* GIFT */
 .gift{
 font-size:80px;
-margin-top:30px;
+margin-top:20px;
 cursor:pointer;
+transition:0.3s;
+}
+.gift:hover{
+transform:scale(1.2);
 }
 
 /* LETTER */
 #letter{
 display:none;
-margin:30px auto;
+margin:20px auto;
 width:85%;
 max-width:600px;
 background:rgba(255,255,255,0.1);
-backdrop-filter:blur(10px);
-padding:25px;
+backdrop-filter:blur(12px);
+padding:20px;
 border-radius:20px;
 }
 
-/* CELEBRATION OVERLAY */
+/* CELEBRATION */
 #celebration{
 position:fixed;
 top:0;
 left:0;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.85);
 display:none;
-flex-direction:column;
 justify-content:center;
 align-items:center;
+flex-direction:column;
+background:rgba(0,0,0,0.85);
 z-index:10;
 }
 
-/* BIG TEXT */
 #celebration h2{
-font-size:60px;
+font-size:55px;
 background:linear-gradient(45deg,#ff4da6,#fff,#ffb6e6);
 -webkit-background-clip:text;
 color:transparent;
-animation:zoom 2s ease;
 }
 
-@keyframes zoom{
-from{transform:scale(0.5);opacity:0}
-to{transform:scale(1);opacity:1}
-}
-
-/* MESSAGE CARD */
 #celebration p{
 max-width:700px;
-margin-top:20px;
-font-size:20px;
+margin-top:15px;
+font-size:18px;
 background:rgba(255,255,255,0.1);
-padding:20px;
+padding:18px;
 border-radius:15px;
 }
 
@@ -120,6 +132,7 @@ color:white;
 padding:10px 15px;
 border-radius:20px;
 cursor:pointer;
+box-shadow:0 0 15px #ff4da6;
 }
 
 </style>
@@ -129,10 +142,11 @@ cursor:pointer;
 
 <canvas id="canvas"></canvas>
 
-<h1>Happy Birthday Elation❤️</h1>
+<h1>Happy Birthday My Love ❤️</h1>
 
 <div id="countdown"></div>
 
+<!-- SLIDESHOW RESTORED -->
 <div class="slideshow">
 <img id="slide" src="photo1.jpg">
 </div>
@@ -164,7 +178,7 @@ document.getElementById("musicBtn").style.display="none";
 }
 
 /* SLIDESHOW */
-let photos=["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg","photo6.jpg","photo7.jpg"];
+let photos=["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg"];
 let index=0;
 
 setInterval(()=>{
@@ -178,15 +192,26 @@ img.style.opacity=1;
 },3000);
 
 /* COUNTDOWN */
-let birthday=new Date("2026-03-17T00:00:00").getTime();
 
-let timer=setInterval(()=>{
+/* COUNTDOWN (INDIAN STANDARD TIME - NEW DELHI) */
 
-let now=new Date().getTime();
-let dist=birthday-now;
+let birthday = new Date("2026-03-17T00:00:00+05:30").getTime();
 
-if(dist<=0){
+function getIndiaTime(){
+  return new Date(
+    new Date().toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+  );
+}
+
+let timer = setInterval(()=>{
+
+let now = getIndiaTime().getTime();
+let dist = birthday - now;
+
+if(dist <= 0){
 clearInterval(timer);
+document.getElementById("countdown").innerHTML =
+"🎉 IT'S YOUR SPECIAL DAY!🎉";
 startCelebration();
 return;
 }
@@ -197,11 +222,11 @@ let m=Math.floor((dist%(1000*60*60))/(1000*60));
 let s=Math.floor((dist%(1000*60))/1000);
 
 document.getElementById("countdown").innerHTML=
-d+"d "+h+"h "+m+"m "+s+"s ❤️";
+d+"d "+h+"h "+m+"m "+s+"s ❤️ (IST)";
 
 },1000);
 
-/* LETTER */
+/* TYPEWRITER */
 let text="Distance means nothing when someone means everything. You are my heart, my forever. ❤️";
 let i=0;
 
@@ -216,22 +241,25 @@ setTimeout(type,30);
 function openGift(){
 document.getElementById("letter").style.display="block";
 type();
+playMusic();
 }
 
-/* CELEBRATION MODE */
+/* CELEBRATION */
 function startCelebration(){
 
 document.getElementById("celebration").style.display="flex";
+
 document.getElementById("celebrationText").innerText=
-"Today the universe celebrates you. Even miles apart, our hearts beat together. You are my love, my happiness, my forever. ❤️";
+"You are my happiness, my peace, and my forever. Even miles apart, our hearts stay connected. Today the universe celebrates you. ❤️";
 
 launchFireworks();
-launchConfetti();
+
 }
 
 /* FIREWORKS */
 let canvas=document.getElementById("canvas");
 let ctx=canvas.getContext("2d");
+
 canvas.width=window.innerWidth;
 canvas.height=window.innerHeight;
 
@@ -243,26 +271,13 @@ for(let i=0;i<80;i++){
 particles.push({
 x:canvas.width/2,
 y:canvas.height/2,
-vx:(Math.random()-0.5)*6,
-vy:(Math.random()-0.5)*6,
+vx:(Math.random()-0.5)*7,
+vy:(Math.random()-0.5)*7,
 life:100,
 color:`hsl(${Math.random()*360},100%,60%)`
 });
 }
 },800);
-}
-
-function launchConfetti(){
-for(let i=0;i<200;i++){
-particles.push({
-x:Math.random()*canvas.width,
-y:Math.random()*canvas.height,
-vx:(Math.random()-0.5)*4,
-vy:Math.random()*3,
-life:150,
-color:`hsl(${Math.random()*360},100%,60%)`
-});
-}
 }
 
 function animate(){
