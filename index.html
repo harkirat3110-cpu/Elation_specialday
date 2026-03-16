@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Happy Birthday ❤️</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+text-align:center;
+background:linear-gradient(#ff9a9e,#fecfef);
+color:white;
+overflow-x:hidden;
+}
+
+h1{
+font-size:50px;
+margin-top:60px;
+}
+
+p{
+font-size:22px;
+width:70%;
+margin:auto;
+}
+
+button{
+margin-top:30px;
+padding:15px 30px;
+font-size:18px;
+border:none;
+border-radius:10px;
+background:white;
+color:#ff4d88;
+cursor:pointer;
+}
+
+.slideshow{
+margin-top:40px;
+}
+
+.slideshow img{
+width:300px;
+border-radius:20px;
+box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+
+.heart{
+position:fixed;
+bottom:-10px;
+font-size:24px;
+animation:float 6s linear infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0);opacity:1}
+100%{transform:translateY(-100vh);opacity:0}
+}
+
+</style>
+</head>
+
+<body>
+
+<h1>Happy Birthday My Love 🎂❤️</h1>
+
+<p>
+Today is all about you.  
+You make my world brighter every day and I’m so lucky to have you.
+</p>
+
+<h2 id="countdown"></h2>
+
+<div class="slideshow">
+<img id="slide" src="photo1.jpg">
+</div>
+
+<button onclick="showMessage()">Click for a surprise 💌</button>
+
+<p id="secret" style="display:none;margin-top:20px;">
+You are the most beautiful part of my life.  
+I love you more than words can say ❤️
+</p>
+
+<audio autoplay loop>
+<source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+let photos=[
+"photo1.jpg",
+"photo2.jpg",
+"photo3.jpg",
+"photo4.jpg"
+];
+
+let index=0;
+
+function slideShow(){
+index++;
+if(index>=photos.length){index=0}
+document.getElementById("slide").src=photos[index];
+}
+
+setInterval(slideShow,3000);
+
+function showMessage(){
+document.getElementById("secret").style.display="block";
+}
+
+for(let i=0;i<25;i++){
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="❤️";
+heart.style.left=Math.random()*100+"vw";
+heart.style.animationDuration=(Math.random()*3+3)+"s";
+document.body.appendChild(heart);
+}
+
+let birthday=new Date("2026-03-17").getTime();
+
+let timer=setInterval(function(){
+
+let now=new Date().getTime();
+let distance=birthday-now;
+
+let days=Math.floor(distance/(1000*60*60*24));
+let hours=Math.floor((distance%(1000*60*60*24))/(1000*60*60));
+let minutes=Math.floor((distance%(1000*60*60))/(1000*60));
+let seconds=Math.floor((distance%(1000*60))/1000);
+
+document.getElementById("countdown").innerHTML=
+days+"d "+hours+"h "+minutes+"m "+seconds+"s until your birthday ❤️";
+
+},1000);
+
+</script>
+
+</body>
+</html>
