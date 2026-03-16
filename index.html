@@ -1,72 +1,162 @@
 <!DOCTYPE html>
+
 <html>
 <head>
 
-<title>Happy Birthday Elation ❤️</title>
+<title>Happy Birthday Mithi ❤️</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
 body{
 margin:0;
-font-family:Arial;
+font-family:'Segoe UI',sans-serif;
 text-align:center;
-background:black;
 color:white;
 overflow-x:hidden;
+background:radial-gradient(circle at bottom,#0b0b2a,#000);
 }
+
+/* CANVAS SKY */
 
 canvas{
 position:fixed;
 top:0;
 left:0;
-z-index:-1;
+z-index:-2;
 }
+
+/* TITLE */
 
 h1{
-margin-top:70px;
-font-size:50px;
-color:#ff6fa5;
+margin-top:60px;
+font-size:55px;
+background:linear-gradient(45deg,#ff6fa5,#ffd6e7);
+-webkit-background-clip:text;
+color:transparent;
+text-shadow:0 0 25px pink;
 }
 
+/* COUNTDOWN */
+
 #countdown{
-font-size:22px;
+font-size:24px;
+letter-spacing:2px;
 margin-top:10px;
 }
 
-.slideshow img{
-margin-top:40px;
-width:320px;
-border-radius:20px;
-box-shadow:0 0 20px pink;
+/* CAKE */
+
+.cake{
+font-size:80px;
+margin-top:20px;
+cursor:pointer;
+transition:transform .3s;
 }
 
+.cake:hover{
+transform:scale(1.2);
+}
+
+/* SLIDESHOW */
+
+.slideshow img{
+margin-top:35px;
+width:330px;
+border-radius:25px;
+box-shadow:0 0 40px rgba(255,105,180,0.7);
+animation:fade 3s ease-in-out;
+}
+
+@keyframes fade{
+0%{opacity:.4;transform:scale(.95)}
+100%{opacity:1;transform:scale(1)}
+}
+
+/* GIFT */
+
 .gift{
-font-size:80px;
+font-size:95px;
 margin-top:40px;
 cursor:pointer;
+transition:.4s;
 }
+
+.gift:hover{
+transform:scale(1.2) rotate(-8deg);
+}
+
+/* LETTER */
 
 #letter{
 display:none;
-margin-top:30px;
+margin-top:40px;
 width:70%;
 margin-left:auto;
 margin-right:auto;
 font-size:22px;
-background:rgba(255,105,180,0.2);
-padding:25px;
+background:rgba(255,182,193,0.15);
+backdrop-filter:blur(10px);
+padding:30px;
 border-radius:20px;
+box-shadow:0 0 40px rgba(255,105,180,0.5);
 }
+
+/* HEARTS */
+
+.heart{
+position:fixed;
+bottom:-20px;
+font-size:22px;
+animation:floatUp 6s linear forwards;
+}
+
+@keyframes floatUp{
+0%{transform:translateY(0);opacity:1}
+100%{transform:translateY(-110vh);opacity:0}
+}
+
+/* FIREWORK */
 
 .firework{
 position:fixed;
-font-size:30px;
-animation:explode 1s ease-out forwards;
+font-size:32px;
+animation:explode 1.1s ease-out forwards;
 }
 
 @keyframes explode{
 0%{transform:scale(0);opacity:1}
 100%{transform:scale(3);opacity:0}
+}
+
+/* CURSOR SPARKLE */
+
+.spark{
+position:fixed;
+pointer-events:none;
+font-size:14px;
+animation:spark .8s linear forwards;
+}
+
+@keyframes spark{
+0%{opacity:1;transform:scale(1)}
+100%{opacity:0;transform:scale(2)}
+}
+
+/* MUSIC BUTTON */
+
+#musicBtn{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#ff6fa5;
+border:none;
+color:white;
+padding:10px 15px;
+border-radius:20px;
+cursor:pointer;
+box-shadow:0 0 15px pink;
 }
 
 </style>
@@ -77,9 +167,11 @@ animation:explode 1s ease-out forwards;
 
 <canvas id="stars"></canvas>
 
-<h1>Happy Birthday Mithi 🎂❤️</h1>
+<h1>Happy Birthday Elation Darling 🎂❤️</h1>
 
 <div id="countdown"></div>
+
+<div class="cake" onclick="blowCandles()">🎂</div>
 
 <div class="slideshow">
 <img id="slide" src="photo1.jpg">
@@ -88,23 +180,13 @@ animation:explode 1s ease-out forwards;
 <div class="gift" onclick="openGift()">🎁</div>
 
 <div id="letter">
-
 <h2>💌 For You</h2>
-
-<p>
-From the moment you came into my life, everything became brighter.
-
-You make ordinary days feel magical and every moment with you is my favorite memory.
-
-This little website is just a small reminder of how much you mean to me.
-
-Happy Birthday ❤️  
-I love you forever.
-</p>
-
+<p id="message"></p>
 </div>
 
-<audio autoplay loop>
+<button id="musicBtn" onclick="playMusic()">🎵 Play Music</button>
+
+<audio id="music" loop>
 <source src="music.mp3" type="audio/mpeg">
 </audio>
 
@@ -124,42 +206,18 @@ let photos=[
 
 let index=0;
 
-setInterval(function(){
+setInterval(()=>{
 index++;
-if(index>=photos.length){index=0;}
+if(index>=photos.length){index=0}
 document.getElementById("slide").src=photos[index];
 },3000);
-
-
-/* GIFT OPEN */
-
-function openGift(){
-
-document.getElementById("letter").style.display="block";
-
-for(let i=0;i<20;i++){
-
-let fire=document.createElement("div");
-fire.className="firework";
-fire.innerHTML="🎆";
-
-fire.style.left=Math.random()*100+"vw";
-fire.style.top=Math.random()*100+"vh";
-
-document.body.appendChild(fire);
-
-setTimeout(()=>fire.remove(),1000);
-
-}
-
-}
 
 
 /* COUNTDOWN */
 
 let birthday=new Date("2026-03-17").getTime();
 
-setInterval(function(){
+setInterval(()=>{
 
 let now=new Date().getTime();
 let dist=birthday-now;
@@ -175,7 +233,7 @@ d+" days "+h+" hours "+m+" minutes "+s+" seconds ❤️";
 },1000);
 
 
-/* STARRY SKY */
+/* STARS SKY */
 
 let canvas=document.getElementById("stars");
 let ctx=canvas.getContext("2d");
@@ -185,11 +243,12 @@ canvas.height=window.innerHeight;
 
 let stars=[];
 
-for(let i=0;i<200;i++){
+for(let i=0;i<350;i++){
 stars.push({
 x:Math.random()*canvas.width,
 y:Math.random()*canvas.height,
-r:Math.random()*2
+r:Math.random()*2,
+speed:Math.random()*0.6
 });
 }
 
@@ -200,9 +259,17 @@ ctx.clearRect(0,0,canvas.width,canvas.height);
 ctx.fillStyle="white";
 
 stars.forEach(star=>{
+
+star.y+=star.speed;
+
+if(star.y>canvas.height){
+star.y=0;
+}
+
 ctx.beginPath();
 ctx.arc(star.x,star.y,star.r,0,Math.PI*2);
 ctx.fill();
+
 });
 
 requestAnimationFrame(drawStars);
@@ -210,6 +277,127 @@ requestAnimationFrame(drawStars);
 }
 
 drawStars();
+
+
+/* FLOATING HEARTS */
+
+setInterval(()=>{
+
+let heart=document.createElement("div");
+heart.className="heart";
+heart.innerHTML="❤️";
+
+heart.style.left=Math.random()*100+"vw";
+
+document.body.appendChild(heart);
+
+setTimeout(()=>heart.remove(),6000);
+
+},800);
+
+
+/* CURSOR SPARKLE */
+
+document.addEventListener("mousemove",e=>{
+
+let spark=document.createElement("div");
+spark.className="spark";
+spark.innerHTML="✨";
+
+spark.style.left=e.pageX+"px";
+spark.style.top=e.pageY+"px";
+
+document.body.appendChild(spark);
+
+setTimeout(()=>spark.remove(),800);
+
+});
+
+
+/* TYPEWRITER LETTER */
+
+let text="From the moment you came into my life, everything became brighter. You make ordinary days feel magical and every moment with you is my favorite memory. This little website is just a reminder of how incredibly special you are to me. Happy Birthday my love ❤️ I love you forever.";
+
+let i=0;
+
+function typeLetter(){
+
+if(i<text.length){
+document.getElementById("message").innerHTML+=text.charAt(i);
+i++;
+setTimeout(typeLetter,40);
+}
+
+}
+
+
+/* PLAY MUSIC (FIXED AUDIO ISSUE) */
+
+function playMusic(){
+
+let music=document.getElementById("music");
+
+music.play().then(()=>{
+document.getElementById("musicBtn").style.display="none";
+}).catch(()=>{
+alert("Tap the button again to start music 🎵");
+});
+
+}
+
+
+/* OPEN GIFT */
+
+function openGift(){
+
+document.getElementById("letter").style.display="block";
+
+playMusic();
+
+typeLetter();
+
+/* FIREWORKS */
+
+for(let i=0;i<40;i++){
+
+let fire=document.createElement("div");
+fire.className="firework";
+fire.innerHTML="🎆";
+
+fire.style.left=Math.random()*100+"vw";
+fire.style.top=Math.random()*100+"vh";
+
+document.body.appendChild(fire);
+
+setTimeout(()=>fire.remove(),1100);
+
+}
+
+}
+
+
+/* CAKE INTERACTION */
+
+function blowCandles(){
+
+document.querySelector(".cake").innerHTML="🍰";
+
+for(let i=0;i<20;i++){
+
+let fire=document.createElement("div");
+fire.className="firework";
+fire.innerHTML="✨";
+
+fire.style.left=Math.random()*100+"vw";
+fire.style.top=Math.random()*100+"vh";
+
+document.body.appendChild(fire);
+
+setTimeout(()=>fire.remove(),1000);
+
+}
+
+}
 
 </script>
 
