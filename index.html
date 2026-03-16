@@ -2,7 +2,7 @@
 <html>
 <head>
 
-<title>Happy Birthday Mithi ❤️</title>
+<title>Happy Birthday My Love ❤️</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
@@ -13,22 +13,22 @@ font-family:'Segoe UI',sans-serif;
 text-align:center;
 color:white;
 overflow-x:hidden;
-background:radial-gradient(circle at bottom,#0b0033,#000);
+background:radial-gradient(circle at bottom,#12002f,#000);
 }
 
-/* GALAXY BACKGROUND */
+/* GALAXY */
 canvas{
 position:fixed;
 top:0;
 left:0;
-z-index:-2;
+z-index:-3;
 }
 
 /* TITLE */
 h1{
-margin-top:60px;
-font-size:55px;
-background:linear-gradient(45deg,#ff4da6,#ffffff,#ff99cc);
+margin-top:55px;
+font-size:52px;
+background:linear-gradient(45deg,#ff4da6,#ffffff,#ffb6e6);
 -webkit-background-clip:text;
 color:transparent;
 text-shadow:0 0 25px #ff4da6;
@@ -43,11 +43,11 @@ letter-spacing:2px;
 
 /* SLIDESHOW */
 .slideshow{
-margin-top:40px;
+margin-top:35px;
 }
 
 .slideshow img{
-width:330px;
+width:320px;
 border-radius:25px;
 box-shadow:0 0 45px rgba(255,105,180,0.8);
 transition:opacity 1s ease-in-out;
@@ -55,24 +55,24 @@ transition:opacity 1s ease-in-out;
 
 /* GIFT */
 .gift{
-font-size:95px;
-margin-top:40px;
+font-size:90px;
+margin-top:35px;
 cursor:pointer;
 transition:0.3s;
 }
 .gift:hover{
-transform:scale(1.2) rotate(-8deg);
+transform:scale(1.2);
 }
 
 /* LETTER */
 #letter{
 display:none;
-margin:40px auto;
-width:80%;
+margin:35px auto;
+width:85%;
 max-width:600px;
 background:rgba(255,255,255,0.08);
 backdrop-filter:blur(12px);
-padding:30px;
+padding:28px;
 border-radius:20px;
 box-shadow:0 0 50px rgba(255,105,180,0.5);
 }
@@ -121,14 +121,13 @@ box-shadow:0 0 20px #ff4da6;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <canvas id="stars"></canvas>
 
-<h1>Happy Birthday Mithi 🎂❤️</h1>
+<h1>Happy Birthday My Love ❤️</h1>
 
 <div id="countdown"></div>
 
@@ -151,8 +150,7 @@ box-shadow:0 0 20px #ff4da6;
 
 <script>
 
-/* ===== FIXED AUDIO ===== */
-
+/* ===== MUSIC ===== */
 function playMusic(){
 let music=document.getElementById("music");
 music.play().then(()=>{
@@ -161,8 +159,7 @@ document.getElementById("musicBtn").style.display="none";
 }
 
 /* ===== SLIDESHOW ===== */
-
-let photos=["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg","photo6.jpg","photo7.jpg"];
+let photos=["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg"];
 let index=0;
 
 setInterval(()=>{
@@ -177,11 +174,19 @@ img.style.opacity=1;
 
 /* ===== COUNTDOWN ===== */
 
-let birthday=new Date("2026-03-17").getTime();
+let birthday=new Date("2026-03-17T00:00:00").getTime();
 
-setInterval(()=>{
+let countdownInterval=setInterval(()=>{
+
 let now=new Date().getTime();
 let dist=birthday-now;
+
+if(dist<=0){
+clearInterval(countdownInterval);
+document.getElementById("countdown").innerHTML="🎉 IT'S YOUR SPECIAL DAY! 🎉";
+startCelebration();
+return;
+}
 
 let d=Math.floor(dist/(1000*60*60*24));
 let h=Math.floor((dist%(1000*60*60*24))/(1000*60*60));
@@ -189,10 +194,11 @@ let m=Math.floor((dist%(1000*60*60))/(1000*60));
 let s=Math.floor((dist%(1000*60))/1000);
 
 document.getElementById("countdown").innerHTML=
-"Countdown to your special day 💕 "+d+"d "+h+"h "+m+"m "+s+"s";
+d+"d "+h+"h "+m+"m "+s+"s ❤️";
+
 },1000);
 
-/* ===== GALAXY STARS ===== */
+/* ===== STARS ===== */
 
 let canvas=document.getElementById("stars");
 let ctx=canvas.getContext("2d");
@@ -207,7 +213,7 @@ stars.push({
 x:Math.random()*canvas.width,
 y:Math.random()*canvas.height,
 r:Math.random()*1.8,
-speed:Math.random()*0.6
+speed:Math.random()*0.5
 });
 }
 
@@ -239,9 +245,9 @@ document.body.appendChild(heart);
 setTimeout(()=>heart.remove(),7000);
 },700);
 
-/* ===== TYPEWRITER MESSAGE ===== */
+/* ===== TYPEWRITER ===== */
 
-let text="Distance means nothing when someone means everything. Every mile between us only makes my love stronger. You are my heart, my peace, my forever. Happy Birthday my love ❤️";
+let text="Distance means nothing when someone means everything. You are my heart, my peace, my forever. Every mile apart only makes my love stronger. Happy Birthday my love ❤️";
 
 let i=0;
 
@@ -253,25 +259,36 @@ setTimeout(type,35);
 }
 }
 
-/* ===== OPEN GIFT ===== */
+/* ===== GIFT ===== */
 
 function openGift(){
-
 document.getElementById("letter").style.display="block";
 playMusic();
 type();
+}
 
-/* COLOR FIREWORKS */
+/* ===== CELEBRATION MODE ===== */
+
+function startCelebration(){
+
+openGift();
+
+setInterval(()=>{
 
 for(let i=0;i<60;i++){
+
 let p=document.createElement("div");
 p.className="particle";
 p.style.left=Math.random()*100+"vw";
 p.style.top=Math.random()*100+"vh";
 p.style.background=`hsl(${Math.random()*360},100%,60%)`;
+
 document.body.appendChild(p);
 setTimeout(()=>p.remove(),1000);
+
 }
+
+},2000);
 
 }
 
